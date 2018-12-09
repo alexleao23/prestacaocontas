@@ -5,7 +5,7 @@ ou insatisfação com os gastos realizados.
 
 # Licença
 
-GPL
+ (GNU General Public License - GPL)[https://www.gnu.org/licenses/gpl-3.0]
 
 # Integrantes do time
 - Alexander Leao
