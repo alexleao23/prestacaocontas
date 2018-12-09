@@ -1,6 +1,6 @@
 # Precisava?
 
-App desenvolvido para a I Hackfest do Ministério Público do Amapá. O intuito do aplicativo é a fácil visualização dos gastos feitos pelos parlamentares que atuem em Brasília, sendo possível que o usuário demonstre sua satisfação
+App desenvolvido para a 1ª Hackfest do Ministério Público do Amapá. O intuito do aplicativo é a fácil visualização dos gastos feitos pelos parlamentares que atuem em Brasília, sendo possível que o usuário demonstre sua satisfação
 ou insatisfação com os gastos realizados.  
 
 # Licença
