@@ -18,3 +18,7 @@ GPL
 Para realizar a execução na plataforma android, é necessário ter o [flutter](https://flutter.io/get-started/install/), após isso, inicie um projeto novo e copie as pastas *images*, *lib* e o arquivo *pubspec.yaml*. E execute os comandos:
 - flutter packages get
 - flutter run
+
+# Screenshots
+
+![Screenshots do App](https://i.imgur.com/xnUQck7.png)
