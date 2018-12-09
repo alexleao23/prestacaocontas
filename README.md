@@ -1,16 +1,20 @@
-# gastos_parlamentares
+# Precisava?
 
-A new Flutter project.
+App desenvolvido para a I Hackfest do Ministério Público do Amapá. O intuito do aplicativo é a fácil visualização dos gastos feitos pelos parlamentares que atuem em Brasília, sendo possível que o usuário demonstre sua satisfação
+ou insatisfação com os gastos realizados.  
 
-## Getting Started
+# Licença
 
-This project is a starting point for a Flutter application.
+GPL
 
-A few resources to get you started if this is your first Flutter project:
+# Integrantes do time
+- Alexander Leao
+- Anderson Guerra
+- Lucas Figueiredo
+- Rayana Barbosa
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+# Como testar
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Para realizar a execução na plataforma android, é necessário ter o [flutter](https://flutter.io/get-started/install/), após isso, inicie um projeto novo e copie as pastas *images*, *lib* e o arquivo *pubspec.yaml*. E execute os comandos:
+- flutter packages get
+- flutter run
