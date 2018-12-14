@@ -49,7 +49,7 @@ class CardDep extends Component {
 const styles = StyleSheet.create({
     content: {
         flex: 1,
-        width: '80%',
+        width: '90%',
         alignSelf: 'center',
     },
     imageStyle: {
@@ -71,18 +71,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         marginBottom: 10,
-        marginTop: 5,
     },
     information: {
-        marginLeft: 20,
         fontWeight: 'bold',
     },
     infoContent: {
         borderColor: '#BDBDBD',
         borderStyle: 'dotted',
         borderWidth: 1,
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         marginBottom: 20,
+        paddingHorizontal: 5,
+        paddingVertical: 5,
     }
 });
 

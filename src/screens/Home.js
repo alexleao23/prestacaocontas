@@ -17,7 +17,7 @@ class Home extends Component {
         .then(responseJson => {
             let data = responseJson.dados;
             let linksWithId = [];
-            // let detailedData = [];
+            let detailedData = [];
             data.forEach(item => {
                 linksWithId.push(
                     linkToDetail + item.id
@@ -27,34 +27,35 @@ class Home extends Component {
                 fetch(link).then(res => res.json())
                 .then(resJson => {
                     let info = resJson.dados;
-                    this.state.data.push(info);
+                    detailedData.push(info);
+                    if (detailedData.length == linksWithId.length){
+                        detailedData.forEach(item => {
+                            this.state.pages.push(
+                                <View key={item.id}>
+                                    <CardDep
+                                        profileimg={item.ultimoStatus.urlFoto}
+                                        nome={item.ultimoStatus.nome}
+                                        partido={item.ultimoStatus.siglaPartido}
+                                        uf={item.ultimoStatus.siglaUf}
+                                        nomecivil={item.nomeCivil}
+                                        condeleitoral={item.ultimoStatus.condicaoEleitoral}
+                                        datanasc={item.dataNascimento.split('-').reverse().join('/')}
+                                        escolaridade={item.escolaridade}
+                                    />
+                                </View>
+                            )
+                        })
+                        this.setState({ isLoading: false });
+                    }
                 })
                 .catch((e) => {
                     console.error(e);
                 });
-            });
-            this.state.data.forEach(item => {
-                console.log(item);
-                this.state.pages.push(
-                    <View key={item.id}>
-                        <CardDep
-                            profileimg={item.ultimoStatus.urlFoto}
-                            nome={item.ultimoStatus.nome}
-                            partido={item.ultimoStatus.siglaPartido}
-                            uf={item.ultimoStatus.siglaUf}
-                            nomecivil={item.nomeCivil}
-                            condeleitoral={item.ultimoStatus.condicaoEleitoral}
-                            datanasc={item.dataNascimento}
-                            escolaridade={item.escolaridade}
-                        />
-                    </View>
-                )
-            });
+            });            
         })
         .catch((error) => {
             console.error(error);
         });
-        this.setState({ isLoading: false });
     }
 
     render() {
