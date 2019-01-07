@@ -99,15 +99,21 @@ class _LoginState extends State<Login> {
                       _loadingDialog();
                       User user = await api.getUser(
                           emailController.text, senhaController.text);
-                      _saveUser(user, senhaController.text).then((onValue) {
-                        print(onValue);
-                      });
+                      if (user != null) {
+                        _saveUser(user, senhaController.text).then((onValue) {
+                          print(onValue);
+                        });
 
-                      Navigator.of(context).pop();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Deputados(user.api_token)));
+                        Navigator.of(context).pop();
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Deputados(user.api_token)));
+                      } else {
+                        Navigator.of(context).pop();
+                        _showAvisoLogin();
+                      }
                     }
                   },
                   color: primary,
@@ -154,6 +160,25 @@ class _LoginState extends State<Login> {
                 )
               ],
             ),
+          );
+        });
+  }
+
+  _showAvisoLogin() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Erro"),
+            content: Text("O usuário não existe"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           );
         });
   }
