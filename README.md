@@ -39,6 +39,10 @@ Após isso será gerado o apk na pasta indicada.
 
 O repositório da api se encontra [nesse endereço](https://github.com/alexleao23/apiprecisava)
 
+# Versão online
+
+Você pode acessar uma versão com as mesmas funcionalidades através desse [link](http://132.255.99.34/login)
+
 # Screenshots
 
 ![Screenshots do App](https://i.imgur.com/xnUQck7.png)
