@@ -26,8 +26,8 @@ class _LoginState extends State<Login> {
     super.initState();
     emailController = TextEditingController();
     senhaController = TextEditingController();
-    emailController.text = "usuario1@mail.com";
-    senhaController.text = "usuario1";
+    // emailController.text = "usuario1@mail.com";
+    // senhaController.text = "usuario1";
 
     try {
       _readData().then((result) {

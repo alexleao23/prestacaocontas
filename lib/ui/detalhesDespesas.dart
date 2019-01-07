@@ -306,7 +306,7 @@ class _DetalhesDespesasState extends State<DetalhesDespesas> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Usuario: ",
+              "${comentario.nome_usuario}: ",
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),

@@ -88,7 +88,7 @@ Future<List<Comentario>> getComentarios(
   List<Comentario> comentarios = new List();
   if (response.statusCode == 200) {
     var responseJson = json.decode(response.body);
-    for (var comentario in responseJson) {
+    for (var comentario in responseJson['data']) {
       Comentario comm = Comentario.fromJson(comentario);
       comentarios.add(comm);
     }
@@ -128,12 +128,17 @@ Future<Reacao> sendReaction(
   }
 }
 
-Future<TotalReacoes> getTotalReacoes(int deputado_id, String token) async {
-  final response = await http.get("${baseUrl}deputados/$deputado_id/reacoes",
+Future<List<TotalReacoes>> getTotalReacoes(String token) async {
+  final response = await http.get("${baseUrl}reacoes",
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'});
+  List<TotalReacoes> totalReacoes = new List();
 
   if (response.statusCode == 200) {
-    return TotalReacoes.fromJson(json.decode(response.body));
+    var responseJson = json.decode(response.body);
+    for (var totReact in responseJson) {
+      totalReacoes.add(TotalReacoes.fromJson(totReact));
+    }
+    return totalReacoes;
   } else {
     print("${response.statusCode}");
   }
@@ -147,11 +152,16 @@ Future<List<Deputado>> getDeptReacoes(String token) async {
   if (response.statusCode == 200) {
     var responseJson = json.decode(response.body);
     //print(responseJson);
+    List<TotalReacoes> totalReacoes = await getTotalReacoes(token);
     for (var deputado in responseJson) {
       Deputado dep = Deputado.fromJson(deputado);
-      TotalReacoes totalReacoes = await getTotalReacoes(dep.id, token);
-      dep.total_reacoes_negativas = totalReacoes.reacoes_negativas;
-      dep.total_reacoes_positivas = totalReacoes.reacoes_positivas;
+      for (var react in totalReacoes) {
+        if (dep.id == react.deputado_id) {
+
+          dep.total_reacoes_negativas = react.reacoes_negativas;
+          dep.total_reacoes_positivas = react.reacoes_positivas;
+        }
+      }
       deputados.add(dep);
     }
     return deputados;
