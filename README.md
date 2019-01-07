@@ -17,7 +17,15 @@ ou insatisfação com os gastos realizados.
 
 Para realizar a execução na plataforma android, é necessário ter o [flutter](https://flutter.io/get-started/install/), após isso, inicie um projeto novo e copie as pastas *img*, *lib* e o arquivo *pubspec.yaml*. E execute os comandos:
 - flutter packages get
+- flutter create android
+- cd android
 - flutter run
+
+# Como gerar o apk para release
+
+É necessário executar o seguinte comando:
+- flutter build apk
+Após isso será gerado o apk na pasta indicada.
 
 # Screenshots
 
