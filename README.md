@@ -31,6 +31,14 @@ Na pasta é possível escolher entre a versão desenvolvida com flutter e a vers
 - flutter build apk
 Após isso será gerado o apk na pasta indicada.
 
+# ToDo
+
+[ ] Criar a tela elencando os candidatos por ordem de reacoes positivas/negativas
+
+# API
+
+O repositório da api se encontra [nesse endereço](https://github.com/alexleao23/apiprecisava)
+
 # Screenshots
 
 ![Screenshots do App](https://i.imgur.com/xnUQck7.png)
