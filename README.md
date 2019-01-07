@@ -22,7 +22,7 @@ Para realizar a execução na plataforma android, é necessário ter o [flutter]
 # Download do apk
 
 Para realizar o download do apk, você pode acessar o seguinte link:  
-[Download precisava.apk](https://drive.google.com/open?id=1Nuu5m78DTKGqy9-XqPtE-XRDa0WsD7eD)
+[Download precisava.apk](https://drive.google.com/open?id=1Nuu5m78DTKGqy9-XqPtE-XRDa0WsD7eD)  
 Na pasta é possível escolher entre a versão desenvolvida com flutter e a versão desenvolvida com react-native (do branch app_login)
 
 # Como gerar o apk para release
