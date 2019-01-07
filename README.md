@@ -15,7 +15,7 @@ ou insatisfação com os gastos realizados.
 
 # Como testar
 
-Para realizar a execução na plataforma android, é necessário ter o [flutter](https://flutter.io/get-started/install/), após isso, inicie um projeto novo e copie as pastas *images*, *lib* e o arquivo *pubspec.yaml*. E execute os comandos:
+Para realizar a execução na plataforma android, é necessário ter o [flutter](https://flutter.io/get-started/install/), após isso, inicie um projeto novo e copie as pastas *img*, *lib* e o arquivo *pubspec.yaml*. E execute os comandos:
 - flutter packages get
 - flutter run
 
