@@ -8,12 +8,14 @@ import 'package:flutter_precisava/models/despesa.dart';
 import 'package:flutter_precisava/ui/detalhesDespesas.dart';
 import 'package:flutter_precisava/ui/components/deputadoCard.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class Despesas extends StatefulWidget {
   Deputado deputado;
   String _api_token;
+  int _user_id;
 
-  Despesas(this.deputado, this._api_token);
+  Despesas(this.deputado, this._api_token, this._user_id);
   _DespesasState createState() => _DespesasState();
 }
 
@@ -22,6 +24,8 @@ class _DespesasState extends State<Despesas> {
   Deputado deputado;
   String _api_token;
   int pageCounter = 0;
+  int _user_id;
+  GlobalKey deputadoKey = GlobalKey();
 
   Color fabColor = const Color.fromARGB(255, 0, 39, 118);
 
@@ -31,6 +35,8 @@ class _DespesasState extends State<Despesas> {
     super.initState();
     deputado = widget.deputado;
     _api_token = widget._api_token;
+    _user_id = widget._user_id;
+    print("tela despesas $_user_id");
 
     _carregarMais();
   }
@@ -86,11 +92,16 @@ class _DespesasState extends State<Despesas> {
           child: ListView(
             children: <Widget>[
               Hero(
+                key: deputadoKey,
                 tag: deputado.nome_eleitoral,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 8),
-                  child: deputadoCard(deputado.nome_eleitoral,
-                      deputado.sigla_partido, deputado.url_foto, deputado.total_reacoes_negativas, deputado.total_reacoes_positivas, deputado.id),
+                  child: deputadoCard(
+                      deputado.nome_eleitoral,
+                      deputado.sigla_partido,
+                      deputado.url_foto,
+                      deputado.total_reacoes_negativas,
+                      deputado.total_reacoes_positivas),
                 ),
               ),
               Padding(
@@ -105,8 +116,9 @@ class _DespesasState extends State<Despesas> {
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
                         itemBuilder: (BuildContext context, int index) {
+                          print("indice $index");
                           return _despesasCard(
-                              context, despesas[index], deputado);
+                              context, despesas[index], deputado, _user_id);
                         },
                         staggeredTileBuilder: (int index) =>
                             StaggeredTile.fit(2),
@@ -152,7 +164,16 @@ class _DespesasState extends State<Despesas> {
     );
   }
 
-  Widget _despesasCard(BuildContext context, Despesa despesa, Deputado dept) {
+  Widget _despesasCard(
+      BuildContext context, Despesa despesa, Deputado dept, int _user_id) {
+    int usuario;
+    try {
+      usuario = despesa.reacao_usuario['usuario_id'];
+    } catch (e) {
+      usuario = -1;
+    }
+
+    print("Usuario do escopo: $usuario e Usuario do servidor: $_user_id");
     String data_emissao_aux;
     if (despesa.data_emissao == null) {
       data_emissao_aux = "Sem data";
@@ -191,13 +212,58 @@ class _DespesasState extends State<Despesas> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         fontSize: 16)),
-                barraVotos(),
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    height: 2,
+                    color: secondary,
+                  ),
+                ),
+                // LayoutBuilder(builder: (context, constraints) {
+                //   return Padding(
+                //     padding: EdgeInsets.symmetric(vertical: 5),
+                //     child: LinearPercentIndicator(
+                //       padding: EdgeInsets.symmetric(horizontal: 1),
+                //       width: constraints.maxWidth,
+                //       percent:
+                //           (despesa.num_reacoes_neg + despesa.num_reacoes_pos) >
+                //                   0
+                //               ? (despesa.num_reacoes_pos /
+                //                   (despesa.num_reacoes_neg +
+                //                       despesa.num_reacoes_pos))
+                //               : 0.5,
+                //       backgroundColor: Colors.red,
+                //       progressColor: Colors.greenAccent,
+                //       fillColor: Colors.transparent,
+                //       animateFromLastPercent: true,
+                //     ),
+                //   );
+                // }),
                 Row(
                   children: <Widget>[
-                    _thumbs(
-                        Icons.thumb_up, Colors.greenAccent, despesa.num_reacoes_pos, 1, despesa.id),
-                    _thumbs(Icons.thumb_down, Colors.red, despesa.num_reacoes_neg, 0,
-                        despesa.id)
+                    _thumbsStful(
+                        Icons.thumb_up,
+                        usuario == _user_id
+                            ? Colors.greenAccent
+                            : Colors.white,
+                        despesa.num_reacoes_pos,
+                        1,
+                        deputado.id,
+                        despesa.id,
+                        _api_token,
+                        deputadoKey,
+                        usuario == _user_id ? false : true),
+                    _thumbsStful(
+                        Icons.thumb_down,
+                        usuario == _user_id ? Colors.red : Colors.white,
+                        despesa.num_reacoes_neg,
+                        0,
+                        deputado.id,
+                        despesa.id,
+                        _api_token,
+                        deputadoKey,
+                        usuario == _user_id ? false : true)
                   ],
                 )
               ],
@@ -212,10 +278,62 @@ class _DespesasState extends State<Despesas> {
       },
     );
   }
+}
 
-  Widget _thumbs(IconData icon, Color iconColor, int votos, int reacao, int despesa) {
-    String votosAux;
-    votosAux = votos.toString();
+class _thumbsStful extends StatefulWidget {
+  IconData icon;
+  Color iconColor;
+  int votos;
+  int reacao;
+  int deputado;
+  int despesa;
+  String token;
+  GlobalKey deputadoKey = GlobalKey();
+  bool isVotavel;
+
+  _thumbsStful(
+      this.icon,
+      this.iconColor,
+      this.votos,
+      this.reacao,
+      this.deputado,
+      this.despesa,
+      this.token,
+      this.deputadoKey,
+      this.isVotavel);
+
+  @override
+  __thumbsStfulState createState() => __thumbsStfulState();
+}
+
+class __thumbsStfulState extends State<_thumbsStful> {
+  IconData icon;
+  Color iconColor;
+  int votos;
+  int reacao;
+  int deputado;
+  int despesa;
+  String token;
+  GlobalKey deputadoKey = GlobalKey();
+  bool isVotavel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    icon = widget.icon;
+    iconColor = widget.iconColor;
+    votos = widget.votos;
+    reacao = widget.reacao;
+    deputado = widget.deputado;
+    despesa = widget.despesa;
+    token = widget.token;
+    deputadoKey = widget.deputadoKey;
+    isVotavel = widget.isVotavel;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -226,37 +344,46 @@ class _DespesasState extends State<Despesas> {
               color: iconColor,
             ),
             onTap: () async {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          CircularProgressIndicator(),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              "Reagindo",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  });
-              await api.sendReaction(reacao, deputado.id, despesa, _api_token);
-              votos++;
-              setState(() {
-                votosAux = votos.toString();
-              });
-              print(votos);
-              Navigator.of(context).pop();
+              if (isVotavel == true) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Text(
+                                "Reagindo",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    });
+                await api.sendReaction(reacao, deputado, despesa, token);
+                setState(() {
+                  //deputadoKey.currentState.setState(() {});
+                  if (reacao == 0) {
+                    iconColor = Colors.red;
+                  } else {
+                    iconColor = Colors.greenAccent;
+                  }
+                  isVotavel = false;
+                  votos++;
+                });
+                //print("aqui");
+                //print(votos);
+                Navigator.of(context).pop();
+              }
             },
           ),
           Container(width: 8),
           Text(
-            votosAux,
+            votos.toString(),
             style: TextStyle(
                 fontSize: 9, fontWeight: FontWeight.w400, color: Colors.white),
           ),

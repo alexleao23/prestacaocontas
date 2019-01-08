@@ -11,7 +11,7 @@ class Despesa {
   String valor_documento;
   int mes_documento;
   int ano_documento;
-  List<dynamic> reacao;
+  Map<String, dynamic> reacao_usuario;
   int num_reacoes_pos;
   int num_reacoes_neg;
 
@@ -28,7 +28,7 @@ class Despesa {
       this.valor_documento,
       this.mes_documento,
       this.ano_documento,
-      this.reacao,
+      this.reacao_usuario,
       this.num_reacoes_pos,
       this.num_reacoes_neg});
 
@@ -46,7 +46,7 @@ class Despesa {
         valor_documento: json['valor_documento'],
         mes_documento: json['mes_documento'],
         ano_documento: json['ano_documento'],
-        reacao: json['reacao'],
+        reacao_usuario: json['reacao_usuario'],
         num_reacoes_pos: json['num_reacoes_pos'],
         num_reacoes_neg: json['num_reacoes_neg']);
   }

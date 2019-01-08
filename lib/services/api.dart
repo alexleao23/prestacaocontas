@@ -79,6 +79,24 @@ Future<List<Despesa>> getDespesas(
   }
 }
 
+Future<Despesa> getDespesa(
+    int deputado_id, String token, int despesa_id) async {
+  final response = await http.get(
+      "${baseUrl}deputados/$deputado_id/despesas/$despesa_id",
+      headers: {HttpHeaders.authorizationHeader: 'Bearer $token'});
+
+  Despesa despesa = new Despesa();
+
+  if (response.statusCode == 200) {
+    despesa = Despesa.fromJson(json.decode(response.body));
+    
+    return despesa;
+  } else {
+    print("${response.statusCode}");
+    return despesa;
+  }
+}
+
 Future<List<Comentario>> getComentarios(
     int deputado_id, int despesa_id, String token) async {
   final response = await http.get(
@@ -95,7 +113,7 @@ Future<List<Comentario>> getComentarios(
   } else {
     print("${response.statusCode}");
   }
-  comentarios = comentarios.reversed.toList();
+  //comentarios = comentarios.reversed.toList();
   return comentarios;
 }
 

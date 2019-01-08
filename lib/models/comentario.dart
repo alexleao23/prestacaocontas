@@ -19,7 +19,6 @@ class Comentario {
       despesa_id: json['despesa_id'],
       descricao: json['descricao'],
       nome_usuario: json['nome_usuario'],
-      created_at: json['created_at'],
     );
   }
 }

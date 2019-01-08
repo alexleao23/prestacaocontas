@@ -102,7 +102,7 @@ class _RegisterState extends State<Register> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Deputados(loggedUser.api_token)));
+                                                  Deputados(loggedUser.api_token, loggedUser.id)));
                                     });
                                   },
                                 )

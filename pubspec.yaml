@@ -18,6 +18,7 @@ dependencies:
   intl: ^0.15.7
   datetime_picker_formfield: ^0.1.7
   flutter_fab_dialer: ^0.1.1
+  percent_indicator: "^1.0.12"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
