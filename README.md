@@ -45,4 +45,4 @@ Você pode acessar uma versão com as mesmas funcionalidades através desse [lin
 
 # Screenshots
 
-![Screenshots do App](https://i.imgur.com/xnUQck7.png)
+![Screenshots do App](https://i.imgur.com/AAwg36E.png)
